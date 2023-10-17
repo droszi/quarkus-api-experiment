@@ -1,6 +1,6 @@
 package com.droszi.api;
 
-import com.droszi.api.db.api.tables.Messages;
+import com.droszi.api.db.public_.tables.Messages;
 import com.droszi.api.services.JooqService;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
