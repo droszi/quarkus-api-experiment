@@ -1,0 +1,114 @@
+import nu.studer.gradle.jooq.JooqEdition
+
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id 'nu.studer.jooq' version '8.2'
+    id "org.flywaydb.flyway" version "9.22.3"
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    flywayMigration
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'io.quarkus:quarkus-resteasy-reactive-jackson:3.4.1'
+    implementation 'org.projectlombok:lombok:1.18.28'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.30'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    implementation("io.quarkus:quarkus-flyway")
+    implementation("io.quarkus:quarkus-jdbc-postgresql")
+
+    implementation "org.jooq:jooq:3.18.6"
+
+    flywayMigration 'org.postgresql:postgresql:42.6.0'
+    jooqGenerator 'org.postgresql:postgresql:42.6.0'
+}
+
+group 'com.droszi'
+version '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+flyway {
+    configurations = ['flywayMigration']
+    url = db_url
+    user = db_user
+    password = db_password
+}
+
+jooq {
+    version = '3.18.4'
+    edition = JooqEdition.OSS
+
+    configurations {
+        main {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = 'jdbc:postgresql://localhost:5432/api'
+                    user = 'api'
+                    password = 'secret'
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                    }
+                    generate {
+                        deprecated = false
+                        records = false
+                        immutablePojos = false
+                        fluentSetters = false
+                    }
+                    target {
+                        packageName = 'com.droszi.api.db'
+                    }
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    dependsOn tasks.named('flywayMigrate')
+
+    inputs.files(fileTree('src/main/resources/db/migration'))
+        .withPropertyName('migrations')
+        .withPathSensitivity(PathSensitivity.RELATIVE)
+
+    allInputsDeclared = true
+}
