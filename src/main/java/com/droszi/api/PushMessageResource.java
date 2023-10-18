@@ -30,9 +30,9 @@ public class PushMessageResource {
             messages.MESSAGE
         )
         .values(
-            pushMessage.getUserId(),
-            pushMessage.getTitle(),
-            pushMessage.getMessage()
+            pushMessage.userId(),
+            pushMessage.title(),
+            pushMessage.message()
         )
         .execute();
 
