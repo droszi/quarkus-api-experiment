@@ -1,6 +1,7 @@
-package com.droszi.api;
+package com.droszi.api.controller;
 
 import com.droszi.api.db.public_.tables.Messages;
+import com.droszi.api.model.PushMessageModel;
 import com.droszi.api.services.JooqService;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -10,7 +11,7 @@ import org.jboss.resteasy.reactive.ResponseStatus;
 import jakarta.inject.Inject;
 
 @Path("/push")
-public class PushMessageResource {
+public class PushMessageController {
   @Inject
   JooqService jooqService;
 
@@ -18,7 +19,7 @@ public class PushMessageResource {
   @Path("/to-user")
   @Produces(MediaType.APPLICATION_JSON)
   @ResponseStatus(201)
-  public PushMessage sendMessage(PushMessage pushMessage) {
+  public PushMessageModel sendMessage(PushMessageModel pushMessage) {
 
     Messages messages = Messages.MESSAGES;
 

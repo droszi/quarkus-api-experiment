@@ -1,10 +1,11 @@
-package com.droszi.api;
+package com.droszi.api.controller;
 
 import static com.droszi.api.db.public_.Tables.MESSAGES;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.droszi.api.model.PushMessageModel;
 import com.droszi.api.services.JooqService;
 
 import io.quarkus.test.common.http.TestHTTPEndpoint;
@@ -20,7 +21,7 @@ import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 @Transactional
-public class PushMessageResourceTest {
+public class PushMessageModelControllerTest {
   @Inject
   JooqService jooqService;
 
@@ -30,9 +31,9 @@ public class PushMessageResourceTest {
   }
 
   @Test
-  @TestHTTPEndpoint(PushMessageResource.class)
+  @TestHTTPEndpoint(PushMessageController.class)
   public void testPost() {
-    PushMessage pushMessage = new PushMessage(1, "msg", "ttl");
+    PushMessageModel pushMessage = new PushMessageModel(1, "msg", "ttl");
     given()
         .contentType(MediaType.APPLICATION_JSON)
         .body(pushMessage)
