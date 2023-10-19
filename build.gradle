@@ -23,6 +23,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-resteasy-reactive-jackson:3.4.1'
     implementation 'org.projectlombok:lombok:1.18.28'
     testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
     testImplementation 'io.rest-assured:rest-assured'
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
