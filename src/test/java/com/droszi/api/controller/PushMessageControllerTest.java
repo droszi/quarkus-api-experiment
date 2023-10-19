@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 
 @QuarkusTest
 @Transactional
-public class PushMessageModelControllerTest {
+public class PushMessageControllerTest {
   @Inject
   JooqService jooqService;
 
