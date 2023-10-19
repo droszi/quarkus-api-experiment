@@ -12,6 +12,10 @@ public class JooqService {
   private final ConnectionService connectionService;
 
   public DSLContext getDbContext() {
-    return new DefaultDSLContext(connectionService.getConnection(), SQLDialect.POSTGRES, null);
+    return new DefaultDSLContext(
+        connectionService.getConnection(),
+        SQLDialect.POSTGRES,
+        null
+    );
   }
 }
