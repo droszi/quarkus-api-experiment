@@ -7,13 +7,11 @@ import com.droszi.api.model.PushMessageModel;
 import com.droszi.api.services.JooqService;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
-@Transactional
 class PushMessageRepositoryTest {
   @Inject
   JooqService jooqService;
