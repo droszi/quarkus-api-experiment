@@ -3,7 +3,6 @@ package com.droszi.api.services;
 import static com.droszi.api.services.DataSource.*;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import java.sql.Connection;
 import java.sql.SQLException;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
