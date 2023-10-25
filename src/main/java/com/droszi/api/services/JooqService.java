@@ -1,22 +1,25 @@
 package com.droszi.api.services;
 
+import static com.droszi.api.services.DataSource.*;
+
 import jakarta.enterprise.context.ApplicationScoped;
-import javax.sql.DataSource;
-import lombok.AllArgsConstructor;
+import java.sql.Connection;
+import java.sql.SQLException;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DefaultDSLContext;
 
 @ApplicationScoped
-@AllArgsConstructor
 public class JooqService {
-  private final DataSource dataSource;
-
   public DSLContext getDbContext() {
-    return new DefaultDSLContext(
-        dataSource,
-        SQLDialect.POSTGRES,
-        null
-    );
+    try {
+      return new DefaultDSLContext(
+          getConnection(),
+          SQLDialect.POSTGRES,
+          null
+      );
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
