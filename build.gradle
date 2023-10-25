@@ -79,9 +79,9 @@ jooq {
                 logging = org.jooq.meta.jaxb.Logging.WARN
                 jdbc {
                     driver = 'org.postgresql.Driver'
-                    url = 'jdbc:postgresql://localhost:5432/api'
-                    user = 'api'
-                    password = 'secret'
+                    url = db_url
+                    user = db_user
+                    password = db_password
                 }
                 generator {
                     name = 'org.jooq.codegen.DefaultGenerator'
